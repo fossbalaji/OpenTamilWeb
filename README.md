@@ -8,7 +8,7 @@ This is a project for text to unicode conversion in webapp
 
 Clone the Project
 
->git clone https://github.com/fossbalaji/text2unicode.git
+>git clone https://github.com/fossbalaji/OpenTamilWeb.git
 
 Change the directory
 
