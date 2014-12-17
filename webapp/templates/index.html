@@ -1,34 +1,100 @@
 <!DOCTYPE HTML>
-<html lang="tm" charset="utf-8">
+<html lang="tm" charset='utf-8'>
 <head>
 <title>This is home page</title>
+<script type="text/javascript" src="../static/js/jquery.js"> </script>
 <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
+<script type="text/javascript">
+$(document).ready(function()
+{
+   var gval = $("#language").val();
+   if(gval == 'english')
+    $("#tamil").hide();
+   else
+    $("#english").hide();
+   
+   $("#language").change(function()
+   {
+     var lang = $(this).val();
+     if(lang == 'english')
+     {
+        $("#tamil").hide();
+        $("#english").show();
+      }
+
+     else
+     {
+        $("#english").hide();
+        $("#tamil").show()
+      }
+   });
+
+   <!-- validate form and submit , get data on success-->
+   $("#myform").submit(function(e)
+   {
+     var selectedVal = "";
+     var selected = $("input[type='radio']:checked");
+     if (selected.length > 0) 
+      {
+        selectedVal = selected.val();
+       }
+     var mytext = $("#mytext").val();
+     console.log(selectedVal);
+     console.log(mytext);
+     if(selectedVal == "")
+     {
+        e.preventDefault();
+        window.alert("Please select encodings type");
+     }
+     if(mytext == "")
+     {
+        e.preventDefault();
+        window.alert("Please Enter your input text");
+     }
+      else
+      {
+        e.preventDefault();
+        $.getJSON("/convert",{'encodings': selectedVal,'mytext':mytext}, function(data)
+        {
+          $("#result").val(data.input_data);
+          
+        });
+      }
+
+
+
+   });
+});
+</script>
 </head>
 <body>
 <div id="container">
- <form role="form" class="form-horizontal" method="POST" action="">
-  	<div class="form-group">
-    	<input type="radio" name="encodings" class="form-control" value="லிபி" >லிபி
-    	<input type="radio" name="encodings" class="form-control" value="Agaram">Agaram
-    	<input type="radio" name="encodings" class="form-control" value="Igaram">Igaram
-    	<input type="radio" name="encodings" class="form-control" value="Anjal">Anjal
-    	<input type="radio" name="encodings" class="form-control" value="Bamini">Bamini
-    	<input type="radio" name="encodings" class="form-control" value="Dinakaran">Dinakaran
-    	<input type="radio" name="encodings" class="form-control" value="Diacritic">Diacritic
+ <form role="form" class="form-horizontal"  id="myform">
+    <div class="form-group">
+      <select name='language' id='language'>
+        <option name='english' value='english'>English</option>
+        <option name='tamil' value='tamil' selected>Tamil</option>
+      </select>
+    </div>
+  	<div class="form-group" id ="english">
+        {% for item in engdata %}
+    	     <input type="radio" id="encodings" class="form-control" value="{{item}}">{{item}}
+        {% endfor %}
   	</div>
+    <div class="form-group" id ="tamil">
+      {% for item in data %}
+          <input type="radio" id="encodings" class="form-control" value="{{item}}">{{item}}
+      {% endfor %}
+    </div>
   	<div class="form-group">
-    	<textarea class="form-control" rows="3"  name="mytext" placeholder="Enter or copy text here"></textarea>
+    	<textarea class="form-control" rows="3"  id="mytext" placeholder="Enter or copy text here"></textarea>
   	</div>
- 	<div class="form-group">
-    	<label for="exampleInputFile">File input</label>
+ 	  <div class="form-group">
     	<input type="file" id="exampleInputFile">
-    	<p class="help-block">Example block-level help text here.</p>
   	</div>
-  	<div class="checkbox">
-    	<label>
-      		<input type="checkbox"> Check me out
-    	</label>
-  	</div>
+    <div class="form-group">
+      <textarea class="form-control" rows="3"  id="result" placeholder="your result goes here"></textarea>
+    </div>
   	<button type="submit" class="btn btn-default">Submit</button>
  </form>
 </div>		
