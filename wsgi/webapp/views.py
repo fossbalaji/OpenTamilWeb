@@ -18,10 +18,10 @@ def index():
 	"""
 	tamiloptions_lst = []
 	englishoptions_lst = []
-	with open('webapp/tamiloptions.txt','r')as f:
+	with app.open_resource('tamiloptions.txt','r')as f:
 		for item in f.readlines():
 			tamiloptions_lst.append(item.strip().decode('utf-8'))
-	with open('webapp/englishoptions.txt','r')as f:
+	with app.open_resource('englishoptions.txt','r')as f:
 		for item in f.readlines():
 			englishoptions_lst.append(item.strip())
 	master_di = []
@@ -46,7 +46,7 @@ def doconvert():
 	"""
 	response_data = {}
 	user_encoding = request.args.get('encodings')
-	print type(request.args.get('mytext'))
+	#print type(request.args.get('mytext'))
 	input_data = request.args.get('mytext')
 	temp_en = user_encoding.lower()
 	if temp_en.startswith('auto'):
@@ -57,3 +57,7 @@ def doconvert():
 		response_data['result_unicode'] = e2u.encode2unicode(input_data.encode('utf-8'), get_charmap)
 	return jsonify(response_data)
 
+## Testing url
+@app.route('/test', methods=['GET'])
+def test():
+	return "Testing page works"
