@@ -4,6 +4,7 @@ from flask import request, render_template
 import json
 from flask import jsonify
 from tamil.txt2unicode import encode2unicode as e2u
+from utils import d
 
 
 
@@ -16,18 +17,19 @@ def index():
 	functionality : reads two text files and adds options to list 
 	response_data : renders index.html with tamil and english options supported
 	"""
-	tamiloptions_lst = []
-	englishoptions_lst = []
-	with app.open_resource('tamiloptions.txt','r')as f:
-		for item in f.readlines():
-			tamiloptions_lst.append(item.strip().decode('utf-8'))
-	with app.open_resource('englishoptions.txt','r')as f:
-		for item in f.readlines():
-			englishoptions_lst.append(item.strip())
-	master_di = []
-	for tam,eng in zip(tamiloptions_lst, englishoptions_lst):
-		master_di.append((eng,tam))
-	print "****", master_di
+	# tamiloptions_lst = []
+	# englishoptions_lst = []
+	# with app.open_resource('tamiloptions.txt','r')as f:
+	# 	for item in f.readlines():
+	# 		tamiloptions_lst.append(item.strip().decode('utf-8'))
+	# with app.open_resource('englishoptions.txt','r')as f:
+	# 	for item in f.readlines():
+	# 		englishoptions_lst.append(item.strip())
+	# master_di = []
+	# for tam,eng in zip(tamiloptions_lst, englishoptions_lst):
+	# 	master_di.append((eng,tam))
+	# print "****", master_di
+	master_di= dict([(k.decode('utf-8'), v) for k, v in d.items()])
 	return render_template('index.html', data=master_di)
 
 

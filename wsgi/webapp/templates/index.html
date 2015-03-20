@@ -17,13 +17,11 @@
        $("#myform").submit(function(e)
         {
            e.preventDefault();
-           window.alert("Submit clicked");
            checkandsend();
        });
        $("#myengform").submit(function(e)
         {
            e.preventDefault();
-           window.alert("Submit clicked");
            checkandsend();
        });
     });
@@ -76,8 +74,8 @@
   <div role="tabpanel" class="tab-pane active" id="tamil">
       <form role="form" class="form-horizontal"  id="myform">
             <div class="form-group">
-                  {% for k,v in data %}
-                    <input type="radio" name ="encodings" id="encodings" class="form-control" value="{{k}}">{{v}}
+                  {% for k, v in data.iteritems() %}
+                    <input type="radio" name ="encodings" id="encodings" class="form-control" value="{{v}}">{{k}}
                   {% endfor %}
             </div>
             <div class="form-group">
@@ -96,8 +94,8 @@
   <div role="tabpanel" class="tab-pane" id="english">
       <form role="form" class="form-horizontal"  id="myengform">
             <div class="form-group">
-                  {% for k, v in data %}
-                    <input type="radio" name ="encodings" id="encodings" class="form-control" value="{{k}}">{{k}}
+                  {% for k, v in data.iteritems() %}
+                    <input type="radio" name ="encodings" id="encodings" class="form-control" value="{{v}}">{{v}}
                   {% endfor %}
             </div>
             <div class="form-group">
