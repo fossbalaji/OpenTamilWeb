@@ -12,7 +12,7 @@ Clone the Project
 
 Change the directory
 
->cd text2unicode
+>cd OpenTamilWeb
 
 create virtual env
 
@@ -28,7 +28,7 @@ Run the server
 > python run.py
 
 Go to browser
-http://localhost:5000/
+http://localhost:5001/
 
 
 

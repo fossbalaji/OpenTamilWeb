@@ -7,30 +7,24 @@ from tamil.txt2unicode import encode2unicode as e2u
 from utils import d
 
 
-
-@app.route('/',methods=['GET'])
+@app.route('/', methods=['GET'])
 def index():
-	"""
-	endpointurl : '/'
-	allowed methods : 'GET'
-	required params : none
-	functionality : reads two text files and adds options to list 
-	response_data : renders index.html with tamil and english options supported
-	"""
-	# tamiloptions_lst = []
-	# englishoptions_lst = []
-	# with app.open_resource('tamiloptions.txt','r')as f:
-	# 	for item in f.readlines():
-	# 		tamiloptions_lst.append(item.strip().decode('utf-8'))
-	# with app.open_resource('englishoptions.txt','r')as f:
-	# 	for item in f.readlines():
-	# 		englishoptions_lst.append(item.strip())
-	# master_di = []
-	# for tam,eng in zip(tamiloptions_lst, englishoptions_lst):
-	# 	master_di.append((eng,tam))
-	# print "****", master_di
+	return render_template('index.html')
+
+@app.route('/tamil/', methods=['GET'])
+def tamil():
 	master_di= dict([(k.decode('utf-8'), v) for k, v in d.items()])
-	return render_template('index.html', data=master_di)
+	return render_template('tamil.html', data=master_di)
+
+
+@app.route('/english/', methods=['GET'])
+def english():
+	master_di= dict([(k.decode('utf-8'), v) for k, v in d.items()])
+	return render_template('english.html', data=master_di)
+
+@app.route('/upload/', methods=['GET'])
+def upload():
+	return render_template('upload.html')
 
 
 @app.route('/convert', methods=['GET'])

@@ -1,0 +1,48 @@
+{% macro menu(menu_root=None) %}
+{% if menu_root is none %}
+  {% set navigation_bar = [
+    ('#', 'text to unicode', 'Text to Unicode'),
+    ('/tamil/', 'tamil', 'Tamil'),
+    ('/english/', 'english', 'English'),
+    ('/upload/', 'upload', 'Upload')
+] -%}
+
+{% set active_page = active_page|default('Text to Unicode') -%}
+
+    {% for href, id, caption in navigation_bar %}
+    <li{% if id == active_page %} class="active"{% endif
+    %}><a href="{{ href|e }}">{{ caption|e }}</a>
+    </li>
+{% endfor %}
+{% endif %}
+{% endmacro %}
+
+
+{% macro menu_links(links=None) %}
+   {% set  links = [] %}
+  {% for item in links %}
+      <li>
+        <a href="{{ item.url }}">{{ menu_icon(item) }}{{ item.name }}</a>
+      </li>
+  {% endfor %}
+
+{% endmacro %}
+
+{% macro messages() %}
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      {% for category, m in messages %}
+        {% if category %}
+        {# alert-error changed to alert-danger in bootstrap 3, mapping is for backwards compatibility #}
+        {% set mapping = {'message': 'info', 'error': 'danger'} %}
+        <div class="alert alert-{{ mapping.get(category, category) }} alert-dismissable">
+        {% else %}
+        <div class="alert alert-dismissable">
+        {% endif %}
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          {{ m }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+{% endmacro %}
